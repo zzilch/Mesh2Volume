@@ -1,0 +1,12 @@
+.vscode
+.vs
+
+build
+openvdb
+
+./*.obj
+./*.vdb
+./*.vtk
+
+assets/*.vdb
+assets/*.vtk
