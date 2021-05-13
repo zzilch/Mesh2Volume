@@ -9,6 +9,48 @@ Tools for converting mesh to signed distance field volume (Mesh2SDF) using [Open
 - **vdb2vtk**: Convert sparse and narrow-band *.vdb* volume to dense *.vtk* volume.
 - **vdb2mesh**: Convert sparse and narrow-band *.vdb* volume to Wavefront *.obj* mesh.
 
+
+## Usage
+
+Run `target --help` to check more options.
+
+1. Mesh2VDB: The result can be visualized by Houdini, Maya and `vdb_view` from OpenVDB. 
+
+
+    ```bash
+    mesh2volume ./assets/bunny.obj # ./assets/bunny.obj.vdb --dim 256 --bw 3
+    ```
+    
+    ![bunny.obj.vdb](./assets/bunny.obj.vdb.png)
+
+2. Mesh2VTK: The result can be visualized by VTK, Paraview.
+
+    ```bash
+    mesh2volume ./assets/bunny.obj --full --dense # ./assets/bunny.obj.vtk` --dim 256
+    ```
+
+    ![bunny.obj.vtk](./assets/bunny.obj.vtk.png)
+
+3. VDB2VTK: Specify dimension or bounding box to crop the *.vdb* volume.
+
+
+    ```bash
+    vdb2vtk ./assets/bunny.obj.vdb # ./assets/bunny.obj.vdb.vtk --dim 256
+    ```
+
+    ![bunny.obj.vdb.vtk](./assets/bunny.obj.vdb.vtk.png)
+
+4. VDB2Mesh: The result is a mesh mixed with quad and triangle faces.
+
+    ```bash
+    vdb2mesh ./assets/bunny.obj.vtk # ./assets/bunny.obj.vtk.obj --iso 0 --adapt 0
+    ```
+
+    ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
+
+5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube
+
+
 ## Build
 
 ### Windows
@@ -71,43 +113,3 @@ Tools for converting mesh to signed distance field volume (Mesh2SDF) using [Open
     ``` 
 
 4. The targets are in `./build`
-
-## Usage
-
-Run `target --help` to check all options.
-
-1. Mesh2VDB: The result can be visualized by Houdini, Maya and `vdb_view` from OpenVDB. 
-
-
-    ```bash
-    mesh2volume ./assets/bunny.obj # ./assets/bunny.obj.vdb --dim 256 --bw 3
-    ```
-    
-    ![bunny.obj.vdb](./assets/bunny.obj.vdb.png)
-
-2. Mesh2VTK: The result can be visualized by VTK, Paraview.
-
-    ```bash
-    mesh2volume ./assets/bunny.obj --full --dense # ./assets/bunny.obj.vtk` --dim 256
-    ```
-
-    ![bunny.obj.vtk](./assets/bunny.obj.vtk.png)
-
-3. VDB2VTK: 
-
-
-    ```bash
-    vdb2vtk ./assets/bunny.obj.vdb # ./assets/bunny.obj.vdb.vtk --dim 256
-    ```
-
-    ![bunny.obj.vdb.vtk](./assets/bunny.obj.vdb.vtk.png)
-
-4. VDB2Mesh:
-
-    ```bash
-    vdb2mesh ./assets/bunny.obj.vtk # ./assets/bunny.obj.vtk.obj --iso 0 --adapt 0
-    ```
-
-    ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
-
-5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube
