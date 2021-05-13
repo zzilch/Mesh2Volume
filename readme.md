@@ -60,7 +60,6 @@ Run `target --help` to check more options.
 2. Install dependencies
 
     ```bash
-    # Linux & MacOS
     vcpkg install openvdb
     vcpkg install boost-filesystem
     ```
@@ -70,7 +69,6 @@ Run `target --help` to check more options.
     ```bash
     mkdir build
     cd build
-    # windows
     cmake -DCMAKE_TOOLCHAIN_FILE="<PATH_TO_VCPKG>/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -A x64 ..
     cmake --build . --parallel 4 --config Release --target ALL_BUILD
     ```
