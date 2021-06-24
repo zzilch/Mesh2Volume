@@ -48,7 +48,7 @@ Run `target --help` to check more options.
 
     ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
 
-5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube
+5. VTK2Mesh: read as numpy array in python with vtk wrapper and run marching cube
 
 
 ## Build
