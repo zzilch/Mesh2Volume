@@ -48,6 +48,7 @@ Run `target --help` to check more options.
 
     ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
 
+<<<<<<< HEAD
 5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube.
 
     ```bash
@@ -60,6 +61,9 @@ Run `target --help` to check more options.
      
     Plot the clipped and resampled sdf:
     ![pyvista_clip](./assets/pyvista_clip.png)
+=======
+5. VTK2Mesh: read as numpy array in python with vtk wrapper and run marching cube
+>>>>>>> 2ec35bb7a54acc9a26b59f8cb419fd19898f0b89
 
 
 ## Build
@@ -71,7 +75,6 @@ Run `target --help` to check more options.
 2. Install dependencies
 
     ```bash
-    # Linux & MacOS
     vcpkg install openvdb
     vcpkg install boost-filesystem
     ```
@@ -81,7 +84,6 @@ Run `target --help` to check more options.
     ```bash
     mkdir build
     cd build
-    # windows
     cmake -DCMAKE_TOOLCHAIN_FILE="<PATH_TO_VCPKG>/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -A x64 ..
     cmake --build . --parallel 4 --config Release --target ALL_BUILD
     ```
