@@ -48,7 +48,18 @@ Run `target --help` to check more options.
 
     ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
 
-5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube
+5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube.
+
+    ```bash
+    # requies numpy, pyvista, pytorch
+    python ./python/example.py
+    ```
+
+    Plot the `bunny.obj.vtk`:
+    ![pyvista](./assets/pyvista.png)
+     
+    Plot the clipped and resampled sdf:
+    ![pyvista_clip](./assets/pyvista_clip.png)
 
 
 ## Build
