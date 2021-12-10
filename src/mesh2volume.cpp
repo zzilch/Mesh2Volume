@@ -87,7 +87,7 @@ int main(int argc, char **argv)
     float bw = 3.0, expand = 1.57735;
     std::vector<float> bbox{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5};
     bool flag_silent = 0, flag_fill = 0, flag_full = 0, flag_world = 0,
-         flag_dense = 0, flag_unsigned = 0, flag_index = 0, flag_cube = 1;
+         flag_dense = 0, flag_unsigned = 0, flag_index = 0, flag_cube = 1, flag_cell = 0;
 
     CLI::App app("mesh2volume");
     app.add_option("input", input_path, "Input file path")
@@ -116,6 +116,7 @@ int main(int argc, char **argv)
 
     app.add_flag("--silent", flag_silent, "Silent mode");
     app.add_flag("--unsigned", flag_unsigned, "Compute unsiged distance field");
+    app.add_flag("--cell", flag_cell, "Cell centered");
 
 #ifdef USE_INDEX_VOLUME
     app.add_flag("--index", flag_index, "[Todo] Save index volume");
@@ -211,7 +212,10 @@ int main(int argc, char **argv)
     t0 = std::chrono::steady_clock::now();
     openvdb::math::Transform::Ptr transform =
         openvdb::math::Transform::createLinearTransform(voxel_size);
-    transform->postTranslate({voxel_size / 2, voxel_size / 2, voxel_size / 2});
+    if(flag_cell) 
+    {
+        transform->postTranslate({voxel_size / 2, voxel_size / 2, voxel_size / 2});
+    }
 
 #ifdef USE_INDEX_VOLUME
     std::vector<openvdb::Vec3s> verts_local(mesh.points.size());
@@ -295,7 +299,9 @@ int main(int argc, char **argv)
         openvdb::Vec3d vmin = center - volume_size / 2;
         openvdb::Vec3d vmax = center + volume_size / 2;
         openvdb::tools::Dense<float, openvdb::tools::LayoutXYZ> dense(
-            transform->worldToIndexCellCentered({vmin, vmax}));
+            flag_cell ? 
+            transform->worldToIndexCellCentered({vmin, vmax}) : 
+            transform->worldToIndexNodeCentered({vmin, vmax}));
         openvdb::tools::copyToDense(*grid, dense);
 
         if (!flag_silent)
