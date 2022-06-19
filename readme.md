@@ -13,7 +13,7 @@ conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib
 conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc
 
 # build and install openvdb in the conda environment
-conda dactivate openvdb
+conda activate openvdb
 git clone https://github.com/AcademySoftwareFoundation/openvdb.git
 cd openvdb && mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX/Library
