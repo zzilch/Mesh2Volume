@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.15)
+project(pymesh2volume)
+option(DEBUG_RELEASE_BUILD "Debug release build in VS" OFF)
+if (MSVC AND DEBUG_RELEASE_BUILD)
+    add_compile_options(/Z7)
+    add_link_options(/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF)
+endif()
+
+file(TO_CMAKE_PATH $ENV{CONDA_PREFIX}/Library/lib/cmake/OpenVDB OPENVDB_MODULE_PATH)
+list(APPEND CMAKE_MODULE_PATH ${OPENVDB_MODULE_PATH})
+find_package(OpenVDB REQUIRED)
+find_package(EIGEN3 REQUIRED eigen3)
+include_directories( ${EIGEN3_INCLUDE_DIRS} )
+find_package(pybind11 REQUIRED)
+
+pybind11_add_module(pymesh2volume MODULE module.cpp)
+target_link_libraries(pymesh2volume PRIVATE OpenVDB::openvdb)
+target_link_libraries(pymesh2volume PRIVATE TBB::tbb)
+
+file(TO_CMAKE_PATH $ENV{CONDA_PREFIX}/Lib/site-packages MODULE_INSTALL_PATH)
+install(TARGETS pymesh2volume LIBRARY DESTINATION ${MODULE_INSTALL_PATH})

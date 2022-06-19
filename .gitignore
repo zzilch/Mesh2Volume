@@ -3,6 +3,8 @@
 
 build
 openvdb
+tools/build
+python/build
 
 ./*.obj
 ./*.vdb

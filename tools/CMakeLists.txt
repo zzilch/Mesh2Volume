@@ -11,15 +11,8 @@ if(WITH_INDEX_VOLUME)
   add_definitions(-DUSE_INDEX_VOLUME) 
 endif()
 
-if(CMAKE_PREFIX_PATH)
-  list(APPEND CMAKE_MODULE_PATH "${CMAKE_PREFIX_PATH}/lib/cmake/OpenVDB")
-elseif(OPENVDB_ROOT)
-  list(APPEND CMAKE_MODULE_PATH "${OPENVDB_ROOT}/lib/cmake/OpenVDB")
-endif()
-
-message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
-message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
-message("OPENVDB_ROOT: ${OPENVDB_ROOT}")
+set(OPENVDB_MODULE_PATH $ENV{CONDA_PREFIX}/Library/lib/cmake/OpenVDB)
+list(APPEND CMAKE_MODULE_PATH ${OPENVDB_MODULE_PATH})
 
 include_directories(include)
 
@@ -40,3 +33,6 @@ target_link_libraries(vdb2vtk PRIVATE TBB::tbb)
 
 target_link_libraries(vdb2mesh PRIVATE OpenVDB::openvdb)
 target_link_libraries(vdb2mesh PRIVATE Boost::filesystem)
+
+file(TO_CMAKE_PATH $ENV{CONDA_PREFIX}/Library/bin EXE_INSTALL_PATH)
+install(TARGETS mesh2volume vdb2vtk vdb2mesh RUNTIME DESTINATION ${EXE_INSTALL_PATH})

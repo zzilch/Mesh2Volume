@@ -2,15 +2,62 @@
 
 Tools for converting mesh to signed distance field volume (Mesh2SDF) using [OpenVDB](https://github.com/AcademySoftwareFoundation/openvdb).
 
+## 1. Build
 
-## Tools
+### 1.1. Build OpenVDB
+
+```bash
+# windows dependencies
+conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib
+# unix dependencies
+conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc
+
+# build and install openvdb in the conda environment
+conda dactivate openvdb
+git clone https://github.com/AcademySoftwareFoundation/openvdb.git
+cd openvdb && mkdir build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX/Library
+cmake --build . --config release -j --target install
+```
+
+### 1.2. Build and intall Python module or binary tools
+
+```bash
+cd python
+# cd tools
+
+mkdir build && cd build
+cmake ..
+cmake --build . --config release -j --target install
+```
+
+## 2. Usage
+
+### 2.1. Python module (Recommended)
+
+```python
+# mesh vertices,faces,bbox and volume dimensions
+volume = pymesh2volume.Volume(V,F,B,D) 
+# to (D,D,D) dense sdf volume
+sdf,origin,spacing = volume.to_dense() 
+# to (#P) sdf samples
+sdf = volume.sample(P) 
+```
+
+See the example in `example/module.py`. 
+
+```bash
+# requires trimesh, pyvista, matplotlib
+python example/module.py
+```
+
+![bunny.obj.vdb](./assets/plane.png)
+
+### 2.2. Tools (Deprecated)
 
 - **mesh2volume**: Convert Wavefront *.obj* mesh to sparse and narrow-band *.vdb* volume or dense *.vtk* volume.
 - **vdb2vtk**: Convert sparse and narrow-band *.vdb* volume to dense *.vtk* volume.
 - **vdb2mesh**: Convert sparse and narrow-band *.vdb* volume to Wavefront *.obj* mesh.
-
-
-## Usage
 
 Run `target --help` to check more options.
 
@@ -48,76 +95,3 @@ Run `target --help` to check more options.
 
     ![bunny.obj.vdb.obj](./assets/bunny.obj.vdb.obj.png)
 
-5. VTK2Mesh: read as numpy array in python with vtk wrapper or just and run marching cube.
-
-    ```bash
-    # requies numpy, pyvista, pytorch
-    python ./python/example.py
-    ```
-
-    Plot the `bunny.obj.vtk`:
-    ![pyvista](./assets/pyvista.png)
-     
-    Plot the clipped and resampled sdf:
-    ![pyvista_clip](./assets/pyvista_clip.png)
-
-## Build
-
-### Windows
-
-1. Install [vcpkg](https://github.com/microsoft/vcpkg)
-
-2. Install dependencies
-
-    ```bash
-    vcpkg install openvdb
-    vcpkg install boost-filesystem
-    ```
-
-3. Build
-
-    ```bash
-    mkdir build
-    cd build
-    cmake -DCMAKE_TOOLCHAIN_FILE="<PATH_TO_VCPKG>/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -A x64 ..
-    cmake --build . --parallel 4 --config Release --target ALL_BUILD
-    ```
-
-    You can also build and install the latest version of [OpenVDB](https://github.com/AcademySoftwareFoundation/openvdb) from source and run
-
-    ```bash
-    cmake -DCMAKE_TOOLCHAIN_FILE="<PATH_TO_VCPKG>/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows -A x64 -DOPENVDB_ROOT="<PATH_TO_OPENVDB_INSTALL_PATH>" ..
-    ```
-
-4. The targets are in `./build/Release`.
-
-### Linux
-
-1. Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/)
-
-2. Create a virtual environment and install dependencies
-
-    ```bash
-    # dependencies of openvdb-core
-    # openexr>=2.2, tbb>=2018.0 (2020 is ok), blosc>=1.5.0 (1.15.0 is ok),  zlib>=1.2.7, boost>=1.61 conda 
-    sudo apt install zstd
-    create -n openvdb -c conda-forge cmake openexr tbb-devel=2018.0 blosc=1.15.0 zlib boost-cpp=1.75
-    conda activate openvdb
-
-    # [optional] dependencies of openvdb-tools, better to use library in the system
-    # conda install -c conda-forge jemalloc glfw 
-
-    # build and install openvdb in the conda environment
-    git clone https://github.com/AcademySoftwareFoundation/openvdb
-    cd openvdb
-    cmake .. -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX #-DOPENVDB_BUILD_VDB_VIEW=ON
-    cmake --build . --parallel 4 --config Release --target install
-
-3. Build (in the root of this repo)
-    ```
-    mkdir build && cd build
-    cmake .. -DCMAKE_PREFIX_PATH=$CONDA_PREFIX
-    cmake --build . --parallel 4 --config Release --target all
-    ``` 
-
-4. The targets are in `./build`
