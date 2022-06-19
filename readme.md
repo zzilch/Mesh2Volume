@@ -8,12 +8,12 @@ Tools for converting mesh to signed distance field volume (Mesh2SDF) using [Open
 
 ```bash
 # windows dependencies
-conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib
+conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib python=3.9 pybind11
 # unix dependencies
-conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc
+conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc python=3.9 pybind11
+conda activate openvdb
 
 # build and install openvdb in the conda environment
-conda activate openvdb
 git clone https://github.com/AcademySoftwareFoundation/openvdb.git
 cd openvdb && mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX/Library
@@ -24,8 +24,9 @@ cmake --build . --config release -j --target install
 
 ```bash
 cd python
-# cd tools
+# cd tools 
 
+conda activate openvdb
 mkdir build && cd build
 cmake ..
 cmake --build . --config release -j --target install
@@ -48,7 +49,8 @@ sdf = volume.sample(P)
 See the example in `example/module.py`. 
 
 ```bash
-# requires trimesh, pyvista, matplotlib
+conda activate openvdb
+pip install numpy trimesh pyvista matplotlib
 python example/module.py
 ```
 
@@ -56,6 +58,7 @@ python example/module.py
 
 ### 2.2. Tools (Deprecated)
 
+All tools are available in the created conda environment only:
 - **mesh2volume**: Convert Wavefront *.obj* mesh to sparse and narrow-band *.vdb* volume or dense *.vtk* volume.
 - **vdb2vtk**: Convert sparse and narrow-band *.vdb* volume to dense *.vtk* volume.
 - **vdb2mesh**: Convert sparse and narrow-band *.vdb* volume to Wavefront *.obj* mesh.
@@ -66,6 +69,7 @@ Run `target --help` to check more options.
 
 
     ```bash
+    conda activate openvdb
     mesh2volume ./assets/bunny.obj # ./assets/bunny.obj.vdb --dim 256 --bw 3
     ```
     
