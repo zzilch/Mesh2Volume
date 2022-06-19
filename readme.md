@@ -36,6 +36,7 @@ cmake --build . --config release -j --target install
 ### 2.1. Python module (Recommended)
 
 ```python
+import pymesh2volume
 # mesh vertices,faces,bbox and volume dimensions
 volume = pymesh2volume.Volume(V,F,B,D) 
 # to (D,D,D) dense sdf volume
