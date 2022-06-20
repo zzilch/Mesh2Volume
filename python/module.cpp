@@ -205,7 +205,7 @@ struct Volume
 
 };
 
-PYBIND11_MODULE(pymesh2volume, m) {
+PYBIND11_MODULE(mesh2volume, m) {
     py::class_<Volume>(m, "Volume")
         .def(py::init<const Eigen::MatrixXd&, const Eigen::MatrixXi&, const Eigen::MatrixXd&, int>(),
             py::arg("V"), py::arg("F"), py::arg("B"), py::arg("D") = 128)

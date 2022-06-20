@@ -2,7 +2,11 @@
 
 Tools for converting mesh to signed distance field volume (Mesh2SDF) using [OpenVDB](https://github.com/AcademySoftwareFoundation/openvdb).
 
-## 1. Build
+```
+conda install openvdb mesh2volume -c zilch
+```
+
+## 1. Build from source
 
 ### 1.1. Build OpenVDB
 
@@ -16,30 +20,40 @@ conda activate openvdb
 # build and install openvdb in the conda environment
 git clone https://github.com/AcademySoftwareFoundation/openvdb.git
 cd openvdb && mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX/Library
+
+# unix bash
+cmake .. -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX}
+# windows powershell
+cmake .. -DCMAKE_INSTALL_PREFIX=$env{CONDA_PREFIX}/Library
+# windows cmd
+# cmake .. -DCMAKE_INSTALL_PREFIX=%CONDA_PREFIX%/Library
+
 cmake --build . --config release -j --target install
 ```
 
 ### 1.2. Build and intall Python module or binary tools
 
 ```bash
+# build python module
 cd python
-# cd tools 
-
 conda activate openvdb
-mkdir build && cd build
-cmake ..
+python -m pip install .
+
+# build binary tools
+cd tools 
+conda activate openvdb
 cmake --build . --config release -j --target install
 ```
+
 
 ## 2. Usage
 
 ### 2.1. Python module (Recommended)
 
 ```python
-import pymesh2volume
+import mesh2volume
 # mesh vertices,faces,bbox and volume dimensions
-volume = pymesh2volume.Volume(V,F,B,D) 
+volume = mesh2volume.Volume(V,F,B,D) 
 # to (D,D,D) dense sdf volume
 sdf,origin,spacing = volume.to_dense() 
 # to (#P) sdf samples

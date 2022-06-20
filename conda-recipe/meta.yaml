@@ -1,0 +1,27 @@
+package:
+  name: mesh2volume
+  version: "0.0.1"
+source:
+  path: ../python
+build:
+  number: 0
+  binary_relocation: false
+  script:
+    - python -m pip install .
+requirements:
+  build: 
+    - cmake >=3.12
+    - {{ compiler('cxx') }}
+  host:
+    - boost-cpp
+    - tbb-devel
+    - blosc
+    - zlib
+    - jemalloc # [not win]
+    - openvdb
+    - python
+    - pip
+    - pybind11
+    - eigen
+  run:
+    - python
