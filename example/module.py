@@ -1,6 +1,6 @@
 import numpy as np
 import trimesh
-import pymesh2volume
+import mesh2volume
 import pyvista as pv
 import time
 
@@ -15,7 +15,7 @@ scale = mesh.scale
 sphere = pv.Sphere(scale/2,B.mean(0))
 
 s = time.time()
-volume = pymesh2volume.Volume(V,F,B,D)
+volume = mesh2volume.Volume(V,F,B,D)
 e = time.time()
 print("Mesh2Grid(dim=128):",e-s,"s")
 
