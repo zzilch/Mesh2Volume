@@ -129,6 +129,5 @@ setup(
     long_description="",
     ext_modules=[CMakeExtension("mesh2volume")],
     cmdclass={"build_ext": CMakeBuild},
-    zip_safe=False,
-    python_requires=">=3.9",
+    zip_safe=False
 )

@@ -5,13 +5,15 @@ source:
   path: ../python
 build:
   number: 0
-  binary_relocation: false
+  binary_relocation: true
   script:
-    - python -m pip install .
+    - python -m pip install . -vvv
 requirements:
   build: 
-    - cmake >=3.12
     - {{ compiler('cxx') }}
+    - cmake >=3.15
+    - make # [not win]
+    - openvdb
   host:
     - boost-cpp
     - tbb-devel
@@ -19,9 +21,10 @@ requirements:
     - zlib
     - jemalloc # [not win]
     - openvdb
+    - eigen
     - python
     - pip
     - pybind11
-    - eigen
   run:
+    - openvdb
     - python

@@ -12,9 +12,9 @@ conda install openvdb mesh2volume -c zilch
 
 ```bash
 # windows dependencies
-conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib python=3.9 pybind11
+conda create -n openvdb cmake compilers boost-cpp tbb-devel blosc zlib python=3.9 pybind11 eigen
 # unix dependencies
-conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc python=3.9 pybind11
+conda create -n openvdb cmake make compilers boost-cpp tbb-devel blosc zlib jemalloc python=3.9 pybind11 eigen
 conda activate openvdb
 
 # build and install openvdb in the conda environment
