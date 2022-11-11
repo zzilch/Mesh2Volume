@@ -3,7 +3,7 @@
 Tools for converting mesh to signed distance field volume (Mesh2SDF) using [OpenVDB](https://github.com/AcademySoftwareFoundation/openvdb).
 
 ```
-conda install openvdb mesh2volume -c zilch
+conda install openvdb mesh2volume -c zilch -c conda-forge
 ```
 
 ## 1. Build from source
